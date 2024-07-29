@@ -1,0 +1,15 @@
+# Ignore Python bytecode files
+*.pyc
+__pycache__
+
+# Ignore .env files
+.env
+
+# Ignore CSV files
+data/
+
+# Ignore s3 sign-in details
+s3_stuff/
+
+# Ignore Old stuff
+old_stuff/
