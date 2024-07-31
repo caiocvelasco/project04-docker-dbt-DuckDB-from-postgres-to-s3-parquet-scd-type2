@@ -1,12 +1,12 @@
--- models/bronze/customers.sql
--- Transformations:
-    -- No transformations were made as the Bronze layer functions as a Raw/Landing layer of the ingestion step.
--- from {{ source('data','customers') }}   -- References the CSV files in a folder external to this dbt project, as defined in "/workspace/dbt_1_ingestion/models/sources/internal.yaml"
+-- models/s3_bucket/customers.sql
 
--- The line below saves the dbt model externally as parquet. There are also other options. Check: https://github.com/duckdb/dbt-duckdb?tab=readme-ov-file#writing-to-external-files
--- {{ config(materialized='external', location='/workspace/external_ingestion/bronze_parquet_output/customers.parquet') }}
+-- Incremental models: filter the rows that are new or updated
 
-{{ config(materialized='external', location='s3://dbt-duckdb-ingestion-s3-parquet/customers/customers.parquet') }}
+{{ config(
+    materialized='incremental',
+    location='s3://dbt-duckdb-ingestion-s3-parquet/customers_scd_t2/year={{ year }}/month={{ month }}/day={{ day }}/customers_scd_t2.parquet'
+    )
+}}
 
 select
     "CustomerID" as customer_id,

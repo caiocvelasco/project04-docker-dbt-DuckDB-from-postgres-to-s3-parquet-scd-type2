@@ -11,6 +11,7 @@
   - [Build and Run](#build-and-run)
 - [Services](#services)
 - [dbt](#dbt)
+- [Partitioning Strategy](#partitioning-strategy)
 
 ## Project Structure
 
@@ -103,3 +104,17 @@ If you want to check if your Docker environment can see the environment variable
 * dbt (Data Build Tool) is a development environment that enables data analysts and engineers to transform data in their warehouse more effectively.
 * Once dbt is installed and configured, you can use it to build your dbt models, which are SQL scripts that will be materialized in your data warehouse of choice.
 * Go to the `dbt_1_ingestion/` folder and follow the README in there.
+
+## Partitioning Strategy
+
+* Partitioning Parquet files in an S3 bucket is a common technique to optimize query performance and manage large datasets. When you partition a dataset, you split it into smaller, more manageable pieces based on the values of certain columns (e.g., date). This makes it easier to query specific subsets of the data without scanning the entire dataset.
+
+* The idea here is to partition by date, i.e., by year, month, and day.
+
+The S3 Bucket hierarchical folder structure to reflect this strategy will look like the following:
+* s3://your-bucket/data/
+  * year=2024/
+    * month=07/
+      * day=29/
+        * file1.parquet
+        * file2.parquet 
